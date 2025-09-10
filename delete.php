@@ -13,7 +13,7 @@ $statement = $conn->prepare("DELETE FROM user_tbl WHERE u_id = :id");
 $statement -> bindValue(':id', $id);
 $statement -> execute();
 
-header('Location: users.php');
+header('Location: index.php');
 
 
 // echo "FILES: ";
