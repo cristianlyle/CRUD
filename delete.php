@@ -1,6 +1,6 @@
 <?php
 
-include_once('users.php');
+include_once('index.php');
 
 $id = $_POST['id'] ?? null;
 
