@@ -5,7 +5,7 @@ include_once("connect.php");
 $id = $_GET['id'] ?? null;
 
 if (!$id || !is_numeric($id)) {
-    header('Location: users.php');
+    header('Location: index.php');
     exit;
 }
 
@@ -15,7 +15,7 @@ $statement->execute();
 $users = $statement->fetch(PDO::FETCH_ASSOC);
 
 if (!$users) {
-    header('Location: users.php');
+    header('Location: index.php');
     exit;
 }
 
