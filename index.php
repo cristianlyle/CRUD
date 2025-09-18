@@ -2,9 +2,22 @@
 
     include_once("connect.php");
 
-    $statement = $conn->prepare("SELECT * FROM user_tbl");
-    $statement->execute();
-    $dental = $statement->fetchAll(PDO::FETCH_ASSOC);
+    <?php 
+    include_once("connect.php");
+
+    if (!isset($conn)) {
+        die("Database connection not established.");
+    }
+
+    try {
+        $statement = $conn->prepare("SELECT * FROM user_tbl");
+        $statement->execute();
+        $dental = $statement->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        die("Query failed: " . $e->getMessage());
+    }
+?>
+
 
 ?>
 
