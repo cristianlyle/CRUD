@@ -29,7 +29,6 @@ $ucontact = $users['u_contact'] ?? '';
 $uaddress = $users['u_address'] ?? '';
 $ubirthdate = $users['u_birthdate'] ?? '';
 $uaccount = $users['u_account'] ?? '';
-$imagePath = $users['u_image'] ?? '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $ufname = $_POST['fname'];
@@ -49,23 +48,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = 'User Lastname is required';
     }
 
-    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-        $imageTmpPath = $_FILES['image']['tmp_name'];
-        $imageName = randomString(8) . '-' . basename($_FILES['image']['name']);
-        $uploadDir = 'images/';
-        $imagePath = $uploadDir . $imageName;
-
-        if (!is_dir($uploadDir)) {
-            mkdir($uploadDir, 0777, true);
-        }
-
-        if (!move_uploaded_file($imageTmpPath, $imagePath)) {
-            $errors[] = 'Error uploading the image';
-        }
-    }
+ 
 
     if (empty($errors)) {
-        $statement = $conn->prepare("UPDATE user_tbl SET u_firstname = :ufname, u_lastname = :ulname, u_contact = :ucontact, u_sex = :usex, u_age = :uage, u_address = :uaddress, u_birthdate = :ubirthdate, u_account = :uaccount, u_image = :uimage WHERE u_id = :id");
+        $statement = $conn->prepare("UPDATE user_tbl SET u_firstname = :ufname, u_lastname = :ulname, u_contact = :ucontact, u_sex = :usex, u_age = :uage, u_address = :uaddress, u_birthdate = :ubirthdate, u_account = :uaccount WHERE u_id = :id");
 
         $statement->bindValue(':ufname', $ufname);
         $statement->bindValue(':ulname', $ulname);
@@ -75,7 +61,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $statement->bindValue(':uaddress', $uaddress);
         $statement->bindValue(':ubirthdate', $ubirthdate);
         $statement->bindValue(':uaccount', $uaccount);
-        $statement->bindValue(':uimage', $imagePath);
         $statement->bindValue(':id', $id, PDO::PARAM_INT);
 
         $result = $statement->execute();
@@ -120,16 +105,8 @@ function randomString($n) {
         <?php endif; ?>
 
         <form class="row g-3" method="post" action="" enctype="multipart/form-data">
-            <?php if ($imagePath): ?>
-                <div class="md-3">
-                    <img src="<?php echo $imagePath ?>" alt="User Image" class="img-thumbnail mt-2" width="150">
-                </div>
-            <?php endif; ?>
+          
         
-            <div class="md-3">
-                <label for="image" class="form-label">User Picture</label>
-                <input type="file" name="image" class="form-control" id="image">
-            </div>
             <div class="col-md-6">
                 <label for="fname" class="form-label">Firstname</label>
                 <input type="text" name="fname" class="form-control" id="fname" value="<?php echo htmlspecialchars($ufname); ?>">
