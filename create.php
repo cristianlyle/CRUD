@@ -13,7 +13,6 @@ $uaddress = '';
 $ubirthdate = '';
 $uaccount = '';
 $ustatus = 'active';
-$imagePath = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $ufname = trim($_POST['fname']);
@@ -33,26 +32,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = 'User Lastname is required';
     }
 
-    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-        $imageTmpPath = $_FILES['image']['tmp_name'];
-        $imageName = randomString(8) . '-' . basename($_FILES['image']['name']);
-        $uploadDir = 'images/';
-        $imagePath = $uploadDir . $imageName;
-
-        if (!is_dir($uploadDir)) {
-            mkdir($uploadDir, 0777, true);
-        }
-
-        if (!move_uploaded_file($imageTmpPath, $imagePath)) {
-            $errors[] = 'Error uploading the image';
-        }
-    } else {
-        $errors[] = 'Image is required';
-    }
+    
 
     if (empty($errors)) {
-        $statement = $conn->prepare("INSERT INTO user_tbl (u_firstname, u_lastname, u_contact, u_sex, u_age, u_address, u_birthdate, u_account, u_status, u_image) 
-        VALUES (:ufname, :ulname, :ucontact, :usex, :uage, :uaddress, :ubirthdate, :uaccount, :ustatus, :uimage)");
+        $statement = $conn->prepare("INSERT INTO user_tbl (u_firstname, u_lastname, u_contact, u_sex, u_age, u_address, u_birthdate, u_account, u_status) 
+        VALUES (:ufname, :ulname, :ucontact, :usex, :uage, :uaddress, :ubirthdate, :uaccount)");
 
         $statement->bindValue(':ufname', $ufname);
         $statement->bindValue(':ulname', $ulname);
@@ -63,7 +47,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $statement->bindValue(':ubirthdate', $ubirthdate);
         $statement->bindValue(':uaccount', $uaccount);
         $statement->bindValue(':ustatus', $ustatus);
-        $statement->bindValue(':uimage', $imagePath);
 
         $result = $statement->execute();
         if ($result) {
@@ -113,10 +96,6 @@ function randomString($n) {
         <?php endif; ?>
 
         <form class="row g-3" method="post" action="create.php" enctype="multipart/form-data">
-            <div class="md-3">
-                <label for="image" class="form-label">User Picture</label>
-                <input type="file" name="image" class="form-control" id="image">
-            </div>
             <div class="col-md-6">
                 <label for="fname" class="form-label">Firstname</label>
                 <input type="text" name="fname" class="form-control" id="fname">
