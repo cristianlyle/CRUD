@@ -45,7 +45,6 @@
     <tr>
       <th scope="col">#</th>
       <th scope="col">User ID</th>
-      <th scope="col">User Pic</th>
       <th scope="col">Firstname</th>
       <th scope="col">Lastname</th>
       <th scope="col">Sex</th>
@@ -62,7 +61,6 @@
         <tr>
             <th scope="row"><?php echo $i + 1 ?> </th>
             <td> <?php echo $dental['u_id'] ?> </td>
-            <td> <img src= <?php echo $dental['u_image'] ?> class = "size"></td>
             <td> <?php echo $dental['u_firstname'] ?> </td>
             <td> <?php echo $dental['u_lastname'] ?> </td>
             <td> <?php echo $dental['u_sex'] ?> </td>
