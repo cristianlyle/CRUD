@@ -1,6 +1,4 @@
-<?php 
 
-    include_once("connect.php");
 
     <?php 
     include_once("connect.php");
@@ -18,8 +16,6 @@
     }
 ?>
 
-
-?>
 
 
 
