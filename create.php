@@ -35,20 +35,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
 
     if (empty($errors)) {
-        $statement = $conn->prepare("INSERT INTO user_tbl (u_firstname, u_lastname, u_contact, u_sex, u_age, u_address, u_birthdate, u_account, u_status) 
-        VALUES (:ufname, :ulname, :ucontact, :usex, :uage, :uaddress, :ubirthdate, :uaccount)");
+ $statement = $conn->prepare("INSERT INTO user_tbl (
+    u_firstname, u_lastname, u_contact, u_sex, u_age, u_address, u_birthdate, u_account, u_status
+) 
+VALUES (
+    :ufname, :ulname, :ucontact, :usex, :uage, :uaddress, :ubirthdate, :uaccount, :ustatus
+)");
 
-        $statement->bindValue(':ufname', $ufname);
-        $statement->bindValue(':ulname', $ulname);
-        $statement->bindValue(':ucontact', $ucontact);
-        $statement->bindValue(':usex', $usex);
-        $statement->bindValue(':uage', $uage);
-        $statement->bindValue(':uaddress', $uaddress);
-        $statement->bindValue(':ubirthdate', $ubirthdate);
-        $statement->bindValue(':uaccount', $uaccount);
-        $statement->bindValue(':ustatus', $ustatus);
+$params = [
+    ':ufname' => $ufname,
+    ':ulname' => $ulname,
+    ':ucontact' => $ucontact,
+    ':usex' => $usex,
+    ':uage' => $uage,
+    ':uaddress' => $uaddress,
+    ':ubirthdate' => $ubirthdate,
+    ':uaccount' => $uaccount,
+    ':ustatus' => $ustatus,
+];
 
-        $result = $statement->execute();
+$result = $statement->execute($params);
         if ($result) {
             echo "<script>alert('Create Successfully')</script>";
         } else {
