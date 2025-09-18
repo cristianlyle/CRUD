@@ -38,7 +38,7 @@
     <div>
     <h1 style="text-align: center">ACCOUNT DETAILS</h1>
 
-    <a href="add.php" type="button" class="btn btn-success">Add User</a>
+    <a href="create.php" type="button" class="btn btn-success">Add User</a>
     
     <table class="table table-hover">
   <thead>
